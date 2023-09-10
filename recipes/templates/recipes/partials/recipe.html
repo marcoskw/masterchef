@@ -3,40 +3,38 @@
         <img src="https://via.placeholder.com/1280x720.png/000000" alt="">
     </div>
     <div class="recipe-title-container">
-        <h2 class="recipe-title">Lorem ipsum dolor sit amet.</h2>
+        <h2 class="recipe-title">{{ recipe.title }}</h2>
     </div>
     <div class="recipe-author">
         <span class="recipe-author-item">
             <i class="fas fa-user"></i>
-            Lorem Ipsum
+            {{ recipe.author.first_name }} {{ recipe.author.last_name }}
         </span>
         <span class="recipe-author-item">
             <i class="fas fa-calendar-alt"></i>
-            07/09/2023 às 17:22
+            {{ recipe.created_at|date:"d/m/Y H:i" }}
         </span>
         <span class="recipe-author-item">
             <a href="/recipes/category/cafe-da-manha/">
                 <i class="fas fa-layer-group"></i>
-                <span>Lanche</span>
+                <span>{{ recipe.category.name }}</span>
             </a>
         </span>
     </div>
     <div class="recipe-content">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit repellendus natus beatae quis
-            aspernatur explicabo non qui, voluptatibus officia cum assumenda est quo neque id, et
-            repudiandae voluptate sapiente quos?</p>
+        <p>{{ recipe.description }}</p>
     </div>
     <div class="recipe-meta-container">
         <div class="recipe-meta recipe-preparation">
             <h3 class="recipe-meta-title"><i class="fas fa-stopwatch"></i> Preparo</h3>
             <div class="recipe-meta-text">
-                XX Minutos
+                {{ recipe.preparation_time}} {{ recipe.preparation_time_unit }}
             </div>
         </div>
         <div class="recipe-meta recipe-servings">
             <h3 class="recipe-meta-title"><i class="fas fa-pizza-slice"></i> Porções</h3>
             <div class="recipe-meta-text">
-                X Porções
+                {{ recipe.servings }} {{ recipe.servings_unit }}
             </div>
         </div>
     </div>
