@@ -20,6 +20,7 @@ def make_recipe():
         'preparation_time_unit': 'Minutos',
         'servings': fake.random_number(digits=2, fix_len=True),
         'servings_unit': 'Porção',
+        'preparation_ingredients': fake.text(300),
         'preparation_steps': fake.text(3000),
         'created_at': fake.date_time(),
         'author': {
