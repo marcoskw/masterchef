@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from utils.recipes.random_factory import make_recipe
 from .models import Recipe
+from django.http import Http404
 
 
 def home(request):
@@ -20,8 +21,12 @@ def category(request, category_id):
         is_published=True,
     ).order_by('-id')
 
+    if not recipes:
+        raise Http404('Página não encontrada')
+
     return render(request, 'recipes/pages/category.html', context={
         'recipes': recipes,
+        'title': f'{recipes.first().category.name}'
     })
 
 
