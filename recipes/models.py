@@ -19,7 +19,6 @@ class Recipe(models.Model):
     servings_unit = models.CharField(max_length=65)
     preparation_ingredients = models.TextField(blank=True, default='')
     preparation_steps = models.TextField(blank=True, default='')
-    preparation_steps_is_html = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
