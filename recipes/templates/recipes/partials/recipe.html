@@ -70,14 +70,14 @@
     {% if is_detail_page is True %}
         {% if recipe.preparation_ingredients %}
             <div class="preparation-steps">
-                <h4 class="recipe-meta-title"><i class="fas fa-cheese"></i> Ingredientes</h4>
+                <h4 class="recipe-meta-title"><i class="fas fa-cheese"></i> Ingredientes</h4><br>
                 {{ recipe.preparation_ingredients|linebreaksbr }}
             </div>
         {% endif %}
               
         {% if recipe.preparation_steps %}
             <div class="preparation-steps">
-                <h4 class="recipe-meta-title"><i class="fas fa-blender"></i> Modo de Preparo</h4>
+                <h4 class="recipe-meta-title"><i class="fas fa-blender"></i> Modo de Preparo</h4><br>
                 {{ recipe.preparation_steps|linebreaksbr }}
             </div>
         {% endif %}
