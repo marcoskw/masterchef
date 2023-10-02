@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from parameterized import parameterized
 
 
-class RecipeModelTest(RecipeTestBase):
+class RecipeRecipeModelTest(RecipeTestBase):
     def setUp(self) -> None:
         self.recipe = self.make_recipe()
         return super().setUp()

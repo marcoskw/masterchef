@@ -4,7 +4,7 @@ from .test_recipe_base import RecipeTestBase
 # from unittest import skip
 
 
-class RecipeViewsTest(RecipeTestBase):
+class RecipeHomeViewsTest(RecipeTestBase):
     def test_recipe_home_view_function_is_correct(self):
         view = resolve(reverse('recipes:home'))
         self.assertIs(view.func, views.home)

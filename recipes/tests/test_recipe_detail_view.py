@@ -4,7 +4,7 @@ from .test_recipe_base import RecipeTestBase
 # from unittest import skip
 
 
-class RecipeViewsTest(RecipeTestBase):
+class RecipeDetailViewsTest(RecipeTestBase):
     def test_recipe_detail_view_function_is_correct(self):
         view = resolve(reverse('recipes:recipe', kwargs={'id': 1}))
         self.assertIs(view.func, views.recipe)

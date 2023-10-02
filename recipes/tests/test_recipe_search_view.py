@@ -4,7 +4,7 @@ from .test_recipe_base import RecipeTestBase
 # from unittest import skip
 
 
-class RecipeViewsTest(RecipeTestBase):
+class RecipeSearchViewsTest(RecipeTestBase):
     def test_recipe_search_uses_correct_view_function(self):
         resolved = resolve(reverse('recipes:search'))
         self.assertIs(resolved.func, views.search)
@@ -17,3 +17,11 @@ class RecipeViewsTest(RecipeTestBase):
         url = reverse('recipes:search')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
+
+    def test_recipe_search_term_is_on_page_title_and_escaped(self):
+        url = reverse('recipes:search') + '?q=test'
+        response = self.client.get(url)
+        self.assertIn(
+            'Search for &quot;test&quot;',
+            response.content.decode('utf-8')
+        )
