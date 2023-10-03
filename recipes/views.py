@@ -2,6 +2,7 @@ from django.shortcuts import get_list_or_404, get_object_or_404, render
 from utils.recipes.random_factory import make_recipe
 from django.db.models import Q
 from .models import Recipe
+from django.core.paginator import Paginator
 from django.http import Http404
 
 
@@ -10,9 +11,13 @@ def home(request):
         is_published=True,
     ).order_by('-id')
 
+    current_page = request.GET.get('page')
+    paginator = Paginator(recipes, 3)
+    page_object = paginator.get_page(current_page)
+
     return render(request, 'recipes/pages/home.html', context={
-        'recipes': recipes,
-        # 'recipes': [make_recipe() for _ in range(15)],         # example with randon content
+        'recipes': page_object,
+        # 'recipes': [make_recipe() for _ in range(15)],   # example with randon content
     })
 
 
