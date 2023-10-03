@@ -4,6 +4,7 @@ from django.db.models import Q
 from .models import Recipe
 from django.core.paginator import Paginator
 from django.http import Http404
+from utils.pagination import make_pagination_range
 
 
 def home(request):
@@ -11,12 +12,23 @@ def home(request):
         is_published=True,
     ).order_by('-id')
 
-    current_page = request.GET.get('page')
-    paginator = Paginator(recipes, 3)
+    try:
+        current_page = int(request.GET.get('page', 1))
+    except ValueError:
+        current_page = 1
+
+    paginator = Paginator(recipes, 1)
     page_object = paginator.get_page(current_page)
+
+    pagination_range = make_pagination_range(
+        paginator.page_range,
+        4,
+        current_page,
+    )
 
     return render(request, 'recipes/pages/home.html', context={
         'recipes': page_object,
+        'pagination_range': pagination_range
         # 'recipes': [make_recipe() for _ in range(15)],   # example with randon content
     })
 
