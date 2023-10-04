@@ -33,7 +33,7 @@ def make_pagination_range(page_range, qty_pages, current_page):
     }
 
 
-def make_pagination(request, queryset, per_page, qty_page):
+def make_pagination(request, queryset, per_page, qty_pages=4):
     try:
         current_page = int(request.GET.get('page', 1))
     except ValueError:
@@ -44,7 +44,7 @@ def make_pagination(request, queryset, per_page, qty_page):
 
     pagination_range = make_pagination_range(
         paginator.page_range,
-        qty_page,
+        qty_pages,
         current_page,
     )
 
