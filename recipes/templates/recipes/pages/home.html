@@ -1,11 +1,14 @@
 {% extends 'global/base.html' %}
 {% block title %}Home{% endblock title %}
 {% block content %}
-    <div class="main-content main-content-list container">
-        {% for recipe in recipes %}
-            {% include 'recipes/partials/recipe.html' %}
-        {% empty %}
-            <h1>Sem receitas para mostrar :-(</h1>
-        {% endfor %}
-    </div>
+
+{% include "recipes/partials/messages.html" %}
+
+<div class="main-content main-content-list container">
+    {% for recipe in recipes %}
+        {% include 'recipes/partials/recipe.html' %}
+    {% empty %}
+        <h1>Sem receitas para mostrar :-(</h1>
+    {% endfor %}
+</div>
 {% endblock content %}
