@@ -5,7 +5,7 @@
     <div class="main-content center container">
         <h2>Cadatro de Usuário</h2>
     </div>
-    <div class="main-content center container">
+    <div class="main-content     container">
         <form action="{% url "authors:create" %}" method="POST">
             {% csrf_token %}
                 <div class="form-content form-content-grid">
@@ -24,10 +24,12 @@
                         </div>
                     {% endfor %}
                 </div>
-            <div class="form-group center">
-                <button type="submit">
-                    Enviar
-                </button>
+            <div class="form-content form-content-group">
+                <div class="form-group center">
+                    <button type="submit">
+                        Enviar
+                    </button>
+                </div>
             </div>
         </form>
     </div>  
