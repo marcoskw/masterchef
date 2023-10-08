@@ -24,13 +24,23 @@
                         </div>
                     {% endfor %}
                 </div>
-            <div class="form-content form-content-group">
-                <div class="form-group center">
-                    <button type="submit">
-                        Enviar
-                    </button>
+
+                {% if form.errors %}
+                <div class="form-content form-content-group">
+                    <div class="form-group center">
+                        <div class="message message-error">
+                            Verifique os campos acima:
+                        </div>
+                    </div>
                 </div>
-            </div>
+                {% endif %}
+                <div class="form-content form-content-group">
+                    <div class="form-group center">
+                        <button type="submit">
+                            Enviar
+                        </button>
+                    </div>
+                </div>
         </form>
     </div>  
 {% endblock content %}

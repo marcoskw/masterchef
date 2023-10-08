@@ -1,5 +1,18 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+import re
+
+
+def strong_password(password):
+    regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
+
+    if not regex.match(password):
+        raise ValidationError((
+            'A senha deve conter maiúsculas e minúsculas, números e caracteres especiais'  # noqa 501
+        ),
+            code='invalid'
+        )
 
 
 class RegisterForm(forms.ModelForm):
@@ -7,15 +20,20 @@ class RegisterForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
     password_verification = forms.CharField(
+        label='Confirmação de Senha',
         required=True,
         widget=forms.PasswordInput(
             attrs={
-                'placeholder': 'Confirmação de senha'
+                'placeholder': 'Confirmação de senha',
             }
         ),
+        validators=[
+            strong_password
+        ],
         error_messages={
             'required': 'Este campo precisa ser preenchido e igual a senha'
-        }
+        },
+
     )
 
     class Meta:
@@ -39,8 +57,6 @@ class RegisterForm(forms.ModelForm):
 
         help_texts = {
             'email': 'O e-mail precisa ser válido',
-            'password': 'A senha deve conter letras maiúsculas e minúsculas, numeros e caracteres especiais',  # noqa: 501
-
         }
 
         error_messages = {
@@ -52,6 +68,20 @@ class RegisterForm(forms.ModelForm):
 
         widgets = {
             'password': forms.PasswordInput(attrs={
-                'placeholder': 'Senha de acesso'
+                'placeholder': 'Com maiúsculas e minúsculas, números e caracteres especiais'  # noqa 501
             })
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        password_verification = cleaned_data.get('password_verification')
+
+        if password != password_verification:
+            raise ValidationError({
+                'password': ValidationError(
+                    'As senhas não são iguais',
+                    code='invalid'
+                ),
+                'password_verification': 'As senhas não são iguais',
+            })
