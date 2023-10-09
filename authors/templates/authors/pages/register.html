@@ -5,7 +5,10 @@
     <div class="main-content center container">
         <h2>Cadatro de Usuário</h2>
     </div>
-    <div class="main-content     container">
+    <div class="main-content center containe">
+        {% include "recipes/partials/messages.html" %}
+    </div>
+    <div class="main-content container">
         <form action="{% url "authors:create" %}" method="POST">
             {% csrf_token %}
                 <div class="form-content form-content-grid">
