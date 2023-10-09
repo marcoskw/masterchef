@@ -19,6 +19,20 @@ class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    first_name = forms.CharField(
+        error_messages={'required': 'Escreva o seu nome'},
+        label='Nome'
+    )
+    last_name = forms.CharField(
+        error_messages={'required': 'Escreva o seu sobrenome'},
+        label='Sobrenome'
+    )
+    email = forms.EmailField(
+        error_messages={'required': 'Digite um email válido'},
+        label='Email',
+        help_text='O e-mail precisa ser válido',
+    )
+
     password_verification = forms.CharField(
         label='Confirmação de Senha',
         required=True,
