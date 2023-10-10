@@ -18,7 +18,8 @@ def strong_password(password):
 
     if not regex.match(password):
         raise ValidationError((
-            'A senha deve conter maiúsculas e minúsculas, números e caracteres especiais'  # noqa 501
+            'A senha deve conter maiúsculas e '
+            'minúsculas, números e caracteres especiais'
         ),
             code='invalid'
         )
@@ -27,23 +28,15 @@ def strong_password(password):
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-    first_name = forms.CharField(
-        error_messages={'required': 'Escreva o seu nome'},
-        label='Nome'
-    )
-    last_name = forms.CharField(
-        error_messages={'required': 'Escreva o seu sobrenome'},
-        label='Sobrenome'
-    )
-    email = forms.EmailField(
-        error_messages={'required': 'Digite um email válido'},
-        label='Email',
-        help_text='O e-mail precisa ser válido',
-    )
+        add_placeholder(self.fields['username'], 'Usuário')
+        add_placeholder(self.fields['email'], 'E-mail')
+        add_placeholder(self.fields['first_name'], 'Nome')
+        add_placeholder(self.fields['last_name'], 'Sobrenome')
+        add_placeholder(self.fields['password'], 'Senha')
+        add_placeholder(self.fields['password_verification'], 'Repita a senha')
 
     username = forms.CharField(
-        label='Usuário de acesso',
+        label='Usuário',
         help_text=(
             'Usuário tem que letras, números ou @.+-_'
             'Tem que ter entre 3 e 65 caracteres'
@@ -55,38 +48,42 @@ class RegisterForm(forms.ModelForm):
         },
         min_length=2, max_length=65,
     )
-
-    password = forms.CharField(
-        label='Senha',
-        required=True,
-        help_text=('Use uma senha forte'),
-        widget=forms.PasswordInput(
-            attrs={
-                'placeholder': 'Senha de acesso',
-            }
-        )
+    first_name = forms.CharField(
+        error_messages={'required': 'Escreva seu nome'},
+        label='Nome'
     )
-
-    password_verification = forms.CharField(
-        label='Confirmação de Senha',
-        required=True,
-        widget=forms.PasswordInput(
-            attrs={
-                'placeholder': 'Confirmação de senha',
-            }
-        ),
-        validators=[
-            strong_password
-        ],
+    last_name = forms.CharField(
+        error_messages={'required': 'Escreva seu sobrenome'},
+        label='Sobrenome'
+    )
+    email = forms.EmailField(
+        error_messages={'required': 'E-mail obrigarório'},
+        label='E-mail',
+        help_text='Email tem que ser válido',
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(),
         error_messages={
-            'required': 'Este campo precisa ser preenchido e igual a senha'
+            'required': 'Senha não pode ser vazio'
         },
-
+        help_text=(
+            'Senha tem que ter letra maiúscula, minúscula, '
+            'número e caracter especial. E tamanho mínimo '
+            'de 8 caracteres'
+        ),
+        validators=[strong_password],
+        label='Senha'
+    )
+    password_verification = forms.CharField(
+        widget=forms.PasswordInput(),
+        label='Confirmação de Senha',
+        error_messages={
+            'required': 'Por favor, repita sua senha'
+        },
     )
 
     class Meta:
         model = User
-
         fields = [
             'first_name',
             'last_name',
@@ -97,15 +94,18 @@ class RegisterForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+
         password = cleaned_data.get('password')
         password_verification = cleaned_data.get('password_verification')
 
         if password != password_verification:
             password_confirmation_error = ValidationError(
-                'A senha deve conter maiúsculas e minúsculas, números e caracteres especiais, ou senhas não correspondem',  # noqa 501
+                'As senhas devem ser iguais',
                 code='invalid'
             )
             raise ValidationError({
                 'password': password_confirmation_error,
-                'password_verification': [password_confirmation_error],
+                'password_verification': [
+                    password_confirmation_error,
+                ],
             })
