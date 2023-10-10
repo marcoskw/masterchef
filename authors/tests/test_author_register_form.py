@@ -17,6 +17,9 @@ class AuthorRegisterFormUnitTest(TestCase):
 
     @parameterized.expand([
         ('email', 'O e-mail precisa ser válido'),
+        ('password', 'Use uma senha forte'),
+        ('username', ('Usuário tem que letras, números ou @.+-_'
+                      'Tem que ter entre 3 e 65 caracteres')),
     ])
     def test_fields_help_text(self, field, needed):
         form = RegisterForm()
@@ -54,7 +57,7 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         ('first_name', 'Escreva o seu nome'),
         ('last_name', 'Escreva o seu sobrenome'),
         ('email', 'Digite um email válido'),
-        ('password', 'As senhas não são iguais'),
+        ('password', 'A senha deve conter maiúsculas e minúsculas, números e caracteres especiais, ou senhas não correspondem'),  # noqa 501
         ('password_verification', 'Este campo precisa ser preenchido e igual a senha'),  # noqa 501
     ])
     def test_fields_cannot_be_empty(self, field, msg):
@@ -63,3 +66,39 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         response = self.client.post(url, data=self.form_data, follow=True)
         self.assertIn(msg, response.content.decode('utf-8'))
         self.assertIn(msg, response.context['form'].errors.get(field))
+
+    def test_password_field_have_lower_upper_case_letters_and_numbers(self):
+        self.form_data['password'] = 'abc123'
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        msg = 'A senha deve conter maiúsculas e minúsculas, números e caracteres especiais, ou senhas não correspondem'  # noqa 501
+
+        self.assertIn(msg, response.context['form'].errors.get('password'))
+        self.assertIn(msg, response.content.decode('utf-8'))
+
+        self.form_data['password'] = '@A123abc123'
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+        msg = ''
+        self.assertNotIn(msg, response.context['form'].errors.get('password'))
+
+    def test_password_and_password_confirmation_are_equal(self):
+        self.form_data['password'] = '@A123abc123'
+        self.form_data['password_verification'] = '@A123abc1235'
+
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        msg = 'A senha deve conter maiúsculas e minúsculas, números e caracteres especiais, ou senhas não correspondem'  # noqa 501
+
+        self.assertIn(msg, response.context['form'].errors.get('password'))
+        self.assertIn(msg, response.content.decode('utf-8'))
+
+        self.form_data['password'] = '@A123abc123'
+        self.form_data['password_verification'] = '@A123abc123'
+
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+        msg = 'A senha deve conter maiúsculas e minúsculas, números e caracteres especiais, ou senhas não correspondem'  # noqa 501
+        self.assertNotIn(msg, response.content.decode('utf-8'))
