@@ -7,7 +7,7 @@ from django.urls import reverse
 
 class AuthorRegisterFormUnitTest(TestCase):
     @parameterized.expand([
-        ('password', 'Com maiúsculas e minúsculas, números e caracteres especiais'),  # noqa 501
+        ('password', 'Senha de acesso'),  # noqa 501
         ('password_verification', 'Confirmação de senha'),
     ])
     def test_fields_placeholder(self, field, placeholder):
@@ -28,6 +28,7 @@ class AuthorRegisterFormUnitTest(TestCase):
         ('last_name', 'Sobrenome'),
         ('email', 'Email'),
         ('username', 'Usuário de acesso'),
+        ('password', 'Senha'),
         ('password_verification', 'Confirmação de Senha'),
     ])
     def test_fields_labels(self, field, needed):

@@ -33,6 +33,24 @@ class RegisterForm(forms.ModelForm):
         help_text='O e-mail precisa ser válido',
     )
 
+    username = forms.CharField(
+        label='Usuário de acesso',
+        error_messages={
+            'required': 'Este campo é obrigatório',
+            'max_lenght': 'Este campo não pode ter mais de 65 caracteres',
+        },
+    )
+
+    password = forms.CharField(
+        label='Senha',
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Senha de acesso',
+            }
+        )
+    )
+
     password_verification = forms.CharField(
         label='Confirmação de Senha',
         required=True,
@@ -60,31 +78,6 @@ class RegisterForm(forms.ModelForm):
             'email',
             'password',
         ]
-
-        labels = {
-            'first_name': 'Nome',
-            'last_name': 'Sobrenome',
-            'email': 'Email',
-            'username': 'Usuário de acesso',
-
-        }
-
-        help_texts = {
-            'email': 'O e-mail precisa ser válido',
-        }
-
-        error_messages = {
-            'username': {
-                'required': 'Este campo é obrigatório',
-                'max_lenght': 'Este campo não pode ter mais de 65 caracteres',
-            },
-        }
-
-        widgets = {
-            'password': forms.PasswordInput(attrs={
-                'placeholder': 'Com maiúsculas e minúsculas, números e caracteres especiais'  # noqa 501
-            })
-        }
 
     def clean(self):
         cleaned_data = super().clean()
