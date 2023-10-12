@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from .forms import RegisterForm
 from django.http import Http404
 from django.contrib import messages
 from django.urls import reverse
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
+from django.contrib.auth import authenticate, login
 
 
 def register_view(request):
@@ -42,4 +42,24 @@ def login_view(request):
 
 
 def login_create(request):
-    return render(request, 'authors/pages/login.html')
+    if not request.POST:
+        raise Http404()
+
+    form = LoginForm(request.POST)
+    login_url = reverse('authors:login')
+
+    if form.is_valid():
+        authenticated_user = authenticate(
+            username=form.cleaned_data.get('username', ''),
+            password=form.cleaned_data.get('password', '')
+        )
+
+        if authenticated_user is not None:
+            messages.success(request, 'Acesso liberado')
+            login(request, authenticated_user)
+        else:
+            messages.error(request, 'Usuário ou senha inválida')
+    else:
+        messages.error(request, 'Erro de validação de acesso')
+
+    return redirect(login_url)
