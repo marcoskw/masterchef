@@ -12,6 +12,7 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
         body = self.browser.find_element(By.TAG_NAME, 'body')
         self.assertIn('Sem receitas para mostrar :-(', body.text)
 
+    @patch('recipes.views.PER_PAGE', new=3)
     def test_recipe_search_input_can_find_correct_recipe(self):
         title_needed = 'Title of Recipe'
 
@@ -30,3 +31,21 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
 
         self.assertIn(title_needed, self.browser.find_element(
             By.CLASS_NAME, 'main-content-list').text)
+
+    @patch('recipes.views.PER_PAGE', new=3)
+    def test_recipe_home_page_pagination(self):
+        self.make_recipe_in_bath()
+
+        self.browser.get(self.live_server_url)
+
+        page2 = self.browser.find_element(
+            By.XPATH,
+            '//nav[@aria-label="Pagination"]'
+        )
+
+        page2.click()
+
+        self.assertEqual(
+            len(self.browser.find_elements(By.CLASS_NAME, 'recipe')),
+            3
+        )
