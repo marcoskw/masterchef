@@ -34,3 +34,22 @@ class AuthorsRegisterTest(AuthorsBaseTest):
         )
         self.sleep(15)
         self.assertIn('Escreva seu nome', form.text)
+
+    def test_empty_last_name_error_message(self):
+        self.browser.get(self.live_server_url + '/authors/register')
+
+        form = self.browser.find_element(
+            By.XPATH, '/html/body/main/form/div[1]'
+        )
+        self.fill_form_dummy_data(form)
+        form.find_element(By.NAME, 'email').send_keys('teste@teste.com')
+
+        first_name_field = self.get_by_placeholder(form, 'Sobrenome')
+        first_name_field.send_keys(' ')
+        first_name_field.send_keys(Keys.ENTER)
+
+        form = self.browser.find_element(
+            By.XPATH, '/html/body/main/form/div[1]'
+        )
+        self.sleep(15)
+        self.assertIn('Escreva seu sobrenome', form.text)
