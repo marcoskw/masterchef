@@ -1,13 +1,11 @@
 from .base import AuthorsBaseTest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+import pytest
 
 
+@pytest.mark.functional_test
 class AuthorsRegisterTest(AuthorsBaseTest):
-    def get_by_placeholder(self, web_element, placeholder):
-        return web_element.find_element(
-            By.XPATH, f'//input[@placeholder="{placeholder}"]'
-        )
 
     def fill_form_dummy_data(self, form):
         fields = form.find_elements(By.TAG_NAME, 'input')
@@ -65,7 +63,7 @@ class AuthorsRegisterTest(AuthorsBaseTest):
             form = self.browser.find_element(
                 By.XPATH, '/html/body/main/form/div[1]'
             )
-            self.assertIn('Este campo é obrigatório1', form.text)
+            self.assertIn('Este campo é obrigatório', form.text)
         self.form_field_test_with_callback(callback)
 
     def test_invalid_email_error_message(self):
@@ -114,6 +112,5 @@ class AuthorsRegisterTest(AuthorsBaseTest):
         self.get_by_placeholder(
             form, 'Repita a senha').send_keys('Qwe123!@#')
         form.submit()
-
         self.assertIn('Usuário criado com sucesso',
                       self.browser.find_element(By.TAG_NAME, 'body').text)

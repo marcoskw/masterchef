@@ -5,7 +5,7 @@
     <div class="main-content center container">
         <h2>Login</h2>
         {% if  request.user.is_authenticated %}
-            <p>{{ request.user.first_name }}, você está logado no Masterchef</p>
+            <p>Olá {{ request.user.first_name }}! Você está logado no Masterchef</p>
             <form class="inline-form" action="{% url "authors:logout" %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="username" value="{{ request.user.username }}">
