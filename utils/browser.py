@@ -30,5 +30,5 @@ def make_chrome_browser(*options):
 if __name__ == '__main__':
     browser = make_chrome_browser('')
     browser.get('http://www.google.com.br')
-    sleep(20)
+#    sleep(20)
     browser.quit()
