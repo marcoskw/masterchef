@@ -46,5 +46,9 @@ class RecipeAdmin(admin.ModelAdmin):
         '-id'
     ]
 
+    prepopulated_fields = {
+        "slug": ('title',)
+    }
+
 
 admin.site.register(Category, CategoryAdmin)
