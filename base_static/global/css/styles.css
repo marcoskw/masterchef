@@ -413,6 +413,10 @@
     background: var(--color-debug-light);
     color: var(--color-debug-dark);
   }
+
+  .login-message {
+    margin: 1rem 0;
+  }
   
   /* Generics */
   

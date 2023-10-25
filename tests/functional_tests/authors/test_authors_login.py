@@ -23,7 +23,7 @@ class AuthorsLoginTest(AuthorsBaseTest):
         password_field.send_keys(string_password)
         form.submit()
         self.assertIn(
-            f'Olá { user.first_name }! Você está logado no Masterchef',
+            'O que vamos cozinhar hoje?',
             self.browser.find_element(By.TAG_NAME, 'body').text
         )
 
