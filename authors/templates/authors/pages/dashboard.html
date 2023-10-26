@@ -6,6 +6,22 @@
         <h1>.: Dashboard - Masterchef :.</h1>
         <h3>Olá {{ firstname }} {{ lastname }}! O que vamos cozinhar hoje?</h3>
         {% include "authors/partials/login_message.html" %}
+
+        <div class="authors-dashboard-container">
+            <h3>Suas receitas</h3>
+            <ul>
+                {% for recipe in recipes %}
+                    <li>
+                        <a href="">{{ recipe.title }}</a>
+                    </li>
+                {% empty %}
+                    <li>
+                        <p>Você não tem receitas a serem publicadas</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
     </div>
     {% include "global/partials/messages.html" %}
 

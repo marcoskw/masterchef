@@ -417,6 +417,33 @@
   .login-message {
     margin: 1rem 0;
   }
+
+  .authors-dashboard-container {
+    max-width: 64rem;
+    padding: var(--spacing-gutter-medium);
+    text-align: left;
+    margin: 0 auto;
+  }
+
+  .authors-dashboard-container h3, p, ul {
+    list-style-type: none;
+    margin: 1rem 0;
+  }
+
+  .authors-dashboard-container a{
+    text-decoration: none;
+  }
+
+  .authors-dashboard-container a:hover {
+    background: var(--color-gray-4);
+    color: var(--color-gray-9);
+  }
+
+
+  .authors-dashboard-container a:visited {
+    background: var(--color-gray-3);
+    color: var(--color-gray-8);
+  }
   
   /* Generics */
   
