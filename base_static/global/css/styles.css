@@ -445,6 +445,11 @@
     color: var(--color-gray-8);
   }
   
+  .authors-dashboard-container a:link {
+    text-decoration: none;
+    color: var(--color-gray-8);    
+  }
+  
   /* Generics */
   
   .center {

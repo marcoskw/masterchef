@@ -12,9 +12,11 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = [
         'id',
         'title',
+        'author',
         'category',
         'created_at',
         'is_published',
+
     ]
 
     list_display_links = [
