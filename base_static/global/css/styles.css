@@ -329,6 +329,8 @@
     color: var(--color-error-dark);
   }
   
+  .form-content select,
+  .form-content textarea,
   .form-content input {
     width: 100%;
     padding: 1rem;
@@ -361,6 +363,10 @@
   .inline-form{
     display: inline;
 
+  }
+
+  .span-2 {
+    grid-column: span 2;
   }
   
   /* Messages */
@@ -452,6 +458,10 @@
   
   /* Generics */
   
+  .left {
+    text-align: left;
+  }
+
   .center {
     text-align: center;
   }
