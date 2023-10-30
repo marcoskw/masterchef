@@ -85,7 +85,7 @@ class AuthorRecipeForm(forms.ModelForm):
         field_name = 'preparation_time'
 
         field_value = self.cleaned_data.get(field_name)
-        if not is_positive_number(field_name):
+        if is_positive_number(field_name):
             self._my_errors[field_name].append(
                 'O campo precisa ser um número inteiro positivo!')
         return field_value
@@ -94,7 +94,7 @@ class AuthorRecipeForm(forms.ModelForm):
         field_name = 'servings'
 
         field_value = self.cleaned_data.get(field_name)
-        if not is_positive_number(field_name):
+        if is_positive_number(field_name):
             self._my_errors[field_name].append(
                 'O campo precisa ser um número inteiro positivo!')
         return field_value
