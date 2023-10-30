@@ -5,6 +5,10 @@
         
         <a class="plaintext-button" href="{% url 'authors:dashboard' %}">Clique aqui ver suas receitas</a>
         <br><br>
+        
+        <a class="plaintext-button" href="{% url 'authors:dashboard_recipe_new' %}">Clique aqui adicionar uma nova</a>
+        <br><br>
+        
         <input type="hidden" name="username" value="{{ request.user.username }}">
         <button class="plaintext-button" type="submit">Clique aqui para sair do sistema</button>
     </form> 
