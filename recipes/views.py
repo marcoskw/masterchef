@@ -1,4 +1,5 @@
 import os
+from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 # from utils.recipes.random_factory import make_recipe
 from django.db.models import Q
@@ -52,7 +53,21 @@ class RecipeListViewCategory(RecipeListView):
             category__id=self.kwargs.get('category_id'),
             is_published=True
         )
+
+        if not queryset:
+            raise Http404()
+
         return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        context.update({
+            'title':
+                f'{context.get("recipes")[0].category.name} - Categoria | '
+        })
+
+        return context
 
 
 class RecipeListViewSearch(RecipeListView):
@@ -61,6 +76,10 @@ class RecipeListViewSearch(RecipeListView):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
         search_term = self.request.GET.get('q', '')
+
+        if not search_term:
+            raise Http404()
+
         queryset = queryset.filter(
             Q(
                 Q(title__icontains=search_term) |
@@ -68,6 +87,7 @@ class RecipeListViewSearch(RecipeListView):
 
             )
         )
+
         return queryset
 
     def get_context_data(self, *args, **kwargs):
