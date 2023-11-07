@@ -1,0 +1,1 @@
+1. Setar nas configurações do .env o banco de dados que deseja usar
