@@ -1,1 +1,3 @@
 1. Setar nas configurações do .env o banco de dados que deseja usar
+2. Configurar  ALLOWED_HOSTS e DEBUG para poder fazer Deploy
+3. 
