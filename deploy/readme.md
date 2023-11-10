@@ -12,3 +12,4 @@
     sudo apt install postgresql postgresql-contrib -y
     sudo apt install libpq-dev -y
     sudo apt install git
+
