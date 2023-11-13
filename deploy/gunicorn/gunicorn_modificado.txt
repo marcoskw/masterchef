@@ -1,0 +1,75 @@
+###############################################################called################
+# Replace
+# masterchef to the name of the gunicorn file you want
+# marcoswerle to your user name
+# app_repo to the folder name of your project
+# masterchef to the folder name where you find a file called wsgi.py
+#
+###############################################################################
+# Criando o arquivo masterchef.socket
+sudo nano /etc/systemd/system/masterchef.socket
+
+###############################################################################
+# Conteúdo do arquivo
+[Unit]
+Description=gunicorn blog socket
+
+[Socket]
+ListenStream=/run/masterchef.socket
+
+[Install]
+WantedBy=sockets.target
+
+###############################################################################
+# Criando o arquivo masterchef.service
+sudo nano /etc/systemd/system/masterchef.service
+
+###############################################################################
+# Conteúdo do arquivo
+[Unit]
+Description=Gunicorn daemon (You can change if you want)
+Requires=masterchef.socket
+After=network.target
+
+[Service]
+User=marcoswerle
+Group=www-data
+Restart=on-failure
+EnvironmentFile=/home/marcoswerle/app_repo/.env
+WorkingDirectory=/home/marcoswerle/app_repo
+# --error-logfile --enable-stdio-inheritance --log-level and --capture-output
+# are all for debugging purposes.
+ExecStart=/home/marcoswerle/app_repo/venv/bin/gunicorn \
+          --error-logfile /home/marcoswerle/app_repo/gunicorn-error-log \
+          --enable-stdio-inheritance \
+          --log-level "debug" \
+          --capture-output \
+          --access-logfile - \
+          --workers 6 \
+          --bind unix:/run/masterchef.socket \
+          masterchef.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+###############################################################################
+# Ativando
+sudo systemctl start masterchef.socket
+sudo systemctl enable masterchef.socket
+
+# Checando
+sudo systemctl status masterchef.socket
+curl --unix-socket /run/masterchef.socket localhost
+sudo systemctl status masterchef
+
+# Restarting
+sudo systemctl restart masterchef.service
+sudo systemctl restart masterchef.socket
+sudo systemctl restart masterchef
+
+# After changing something
+sudo systemctl daemon-reload
+
+# Debugging
+sudo journalctl -u masterchef.service
+sudo journalctl -u masterchef.socket
