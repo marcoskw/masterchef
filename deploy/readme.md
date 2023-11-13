@@ -2,6 +2,7 @@
 2. Configurar  ALLOWED_HOSTS e DEBUG para poder fazer Deploy
 3. Criar o SSH para conexão com servidor
 4. Atualizar todos os pacotes abaixo
+
 ```
 sudo apt update -y
 sudo apt upgrade -y
