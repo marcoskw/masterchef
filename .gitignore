@@ -1,14 +1,9 @@
-# superuser marcoswerle
-# password qwe123
-#
-
 # Django #
 *.log
 *.pot
 *.pyc
 __pycache__
 db.sqlite3
-.sqlite3
 media
 
 # Backup files #
@@ -28,7 +23,6 @@ media
 .idea/**/gradle.xml
 .idea/**/libraries
 *.iws /out/
-
 
 # Python #
 *.py[cod]
@@ -132,5 +126,4 @@ local_settings.py
 _local_settings.py
 gunicorn-error-log
 db.sqlite3
-db copy.sqlite3
 static/
