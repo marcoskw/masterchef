@@ -1,9 +1,8 @@
 import os
-from typing import Any
-from django import http
 from django.http import Http404
 # from utils.recipes.random_factory import make_recipe
 from django.db.models import Q
+from django.shortcuts import render
 from .models import Recipe
 from utils.pagination import make_pagination
 from django.views.generic import ListView, DetailView
@@ -166,3 +165,17 @@ class RecipeDetailApi(RecipeDetail):
             recipe_dict,
             safe=False,
         )
+
+
+def theory(request, *args, **kwargs):
+    recipes = Recipe.objects.all()
+
+    context = {
+        'recipes': recipes,
+    }
+
+    return render(
+        request,
+        'recipes/pages/theory.html',
+        context=context
+    )
