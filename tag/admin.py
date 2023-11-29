@@ -32,5 +32,5 @@ class TagAdmin(admin.ModelAdmin):
     ordering = '-id',
 
     prepopulated_fields = {
-        'slug': ('name',)
+        'slug': ('name',),
     }

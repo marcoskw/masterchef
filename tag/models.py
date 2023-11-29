@@ -17,13 +17,12 @@ class Tag(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             rand_letters = ''.join(
-                SystemRandom.choices(
+                SystemRandom().choices(
                     string.ascii_letters + string.digits,
                     k=5,
                 )
             )
             self.slug = slugify(f'{self.name}-{rand_letters}')
-
         return super().save(*args, **kwargs)
 
     def __str__(self):

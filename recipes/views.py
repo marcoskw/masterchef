@@ -2,7 +2,7 @@ import os
 from django.http import Http404
 # from utils.recipes.random_factory import make_recipe
 from django.db.models import Q
-from django.shortcuts import render
+from tag.models import Tag
 from .models import Recipe
 from utils.pagination import make_pagination
 from django.views.generic import ListView, DetailView
@@ -26,6 +26,7 @@ class RecipeListView(ListView):
             is_published=True
         )
         queryset = queryset.select_related('author', 'category')
+        queryset = queryset.prefetch_related('tags')
         return queryset
 
     def get_context_data(self, *args, **kwargs):
@@ -167,15 +168,26 @@ class RecipeDetailApi(RecipeDetail):
         )
 
 
-def theory(request, *args, **kwargs):
-    recipes = Recipe.objects.all()
+class RecipeListViewTag(RecipeListView):
+    template_name = 'recipes/pages/tag.html'
 
-    context = {
-        'recipes': recipes,
-    }
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(tags__slug=self.kwargs.get('slug', ''))
+        return queryset
 
-    return render(
-        request,
-        'recipes/pages/theory.html',
-        context=context
-    )
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        page_title = Tag.objects.filter(
+            slug=self.kwargs.get('slug', '')).first()
+
+        if not page_title:
+            page_title = 'Não achamos nenhuma receita'
+
+        page_title = f'{page_title} - Tag |'
+
+        context.update({
+            'page_title': f'Procura por: "{page_title}" |',
+
+        })
+        return context
