@@ -76,7 +76,7 @@ class Recipe(models.Model):
 
         if self.cover:
             try:
-                self.resize_image(self.cover, 800)
+                self.resize_image(self.cover, 840)
             except FileNotFoundError:
                 ...
 
@@ -92,7 +92,7 @@ class Recipe(models.Model):
         if recipe_from_db:
             if recipe_from_db.pk != self.pk:
                 error_messages['title'].append(
-                    'Ops. Já existe uma receita com esse mesmo título'
+                    'Found recipes with the same title'
                 )
 
         if error_messages:
