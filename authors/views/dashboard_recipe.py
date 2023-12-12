@@ -66,7 +66,6 @@ class DashboardRecipe(View):
             recipe = form.save(commit=False)
 
             recipe.author = request.user
-            recipe.preparation_steps_is_html = False
             recipe.is_published = False
 
             recipe.save()
