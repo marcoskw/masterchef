@@ -26,7 +26,7 @@ class RecipeListView(ListView):
             is_published=True
         )
         queryset = queryset.select_related('author', 'category')
-        queryset = queryset.prefetch_related('tags')
+        queryset = queryset.prefetch_related('tags', 'author__profile')
         return queryset
 
     def get_context_data(self, *args, **kwargs):
